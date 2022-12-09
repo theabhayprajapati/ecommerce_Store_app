@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ProductProps } from './TabOneScreen';
 
 type Cart = {
@@ -10,13 +9,9 @@ type Cart = {
 
 export default function TabTwoScreen() {
   const [cart, setCart] = useState<Cart>([]);
-  const [title, setTitle] = useState('Add to cart');
+  const [title, setTitle] = useState('Checkout');
   const onPress = () => {
-    if (title === 'Added to cart') {
-      setTitle('Add to cart');
-    } else {
-      setTitle('Added to cart');
-    }
+    return setTitle('Checkouted');
   };
   /* onpress chante style */
 
@@ -29,7 +24,7 @@ export default function TabTwoScreen() {
         <Pressable style={styles.buybutton} onPress={onPress}>
           <Text style={styles.text}>{title}</Text>
         </Pressable>
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <View style={styles.separator} />
         {
           cart.length > 0 ? (
             <Text>No items in cart</Text>

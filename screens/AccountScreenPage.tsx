@@ -1,7 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Image, ScrollView, StyleSheet } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ProductProps } from './TabOneScreen';
 
 type Cart = {
@@ -35,12 +35,11 @@ const SettingItemList = [
     title: 'Notifications',
     icon: 'bell',
   }, {
-    title: 'Help',
+    title: 'Signin',
     icon: 'question-circle',
   }, {
-    title: 'Logout',
+    title: 'Login',
     icon: 'sign-out',
-
   },
 ]
 export default function AccountScreenPage() {
@@ -48,11 +47,7 @@ export default function AccountScreenPage() {
   const [cart, setCart] = useState<Cart>([]);
   const [title, setTitle] = useState('Add to cart');
   const onPress = () => {
-    if (title === 'Added to cart') {
-      setTitle('Add to cart');
-    } else {
-      setTitle('Added to cart');
-    }
+    return setTitle('Checkout');
   };
   /* onpress chante style */
 
@@ -74,7 +69,7 @@ export default function AccountScreenPage() {
             {user.mobnumber}
           </Text>
         </View>
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <View style={styles.separator} />
         <View style={{ backgroundColor: 'white' }}>
           <Text style={styles.title}>
             Settings
@@ -87,7 +82,7 @@ export default function AccountScreenPage() {
           }
         </View>
       </View>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View style={styles.separator} />
     </ScrollView>
   );
 }
@@ -98,26 +93,33 @@ const SettingItem = (
     text: string,
   }
 ) => {
+  const navigation = useNavigation();
   return (
-    <View style={{
-      backgroundColor: 'white',
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: 10,
-    }}>
-      <FontAwesome size={30} style={{ marginRight: 10 }} name={props.iconsname} />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '90%',
-        }}>
-        <Text style={styles.title}>
-          {props.text}
-        </Text>
-        <FontAwesome size={30} style={{ marginBottom: -3 }} name="angle-right" />
+    <Pressable onPress={() => navigation.navigate(props.text == "Login" ? "Login" : "Signin")}>
+
+      <View style={{
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+      }}>
+        <FontAwesome size={30} style={{ marginRight: 10 }} name={props.iconsname} />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '90%',
+          }}>
+          <Text style={styles.title}>
+            {props.text}
+          </Text>
+          {/* <FontAwesome size={30} style={{ marginBottom: -3 }} name="angle-right" /> */}
+          <Pressable onPress={() => navigation.navigate(props.text == "Login" ? "Login" : "Signin")}>
+            <FontAwesome size={30} style={{ marginBottom: -3 }} name="angle-right" />
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

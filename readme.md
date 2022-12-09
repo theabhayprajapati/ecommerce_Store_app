@@ -2,6 +2,6 @@
 `
 yarn add
 yarn tunnel 
-    a
+# unless you see andriod bunling complete, app won't load on the phone.
 
 `

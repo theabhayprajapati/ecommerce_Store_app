@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 const categories = ['All', 'Fruits', 'Vegetables', 'Meat', 'Fish', 'Dairy', 'Bakery', 'Drinks', 'Snacks', 'Others']
@@ -26,31 +25,14 @@ const products = [
     image: "https://images.unsplash.com/photo-1523473827533-2a64d0d36748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ]
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>) {
+  const onPressToProductDetails = (product: Product) => {
+    navigation.navigate
+      ('ProductDetails'), {
+      product: product
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -58,7 +40,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
           <Text style={styles.title}>Search Products</Text>
           {/* make a search box and  */}
           <SearchInputField />
-          {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
+          {/* <View style={styles.separator} />lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
           <Text style={styles.title}>Categories</Text>
           {/* make a list of categories */}
           {/* chips */}
@@ -81,14 +63,22 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
               {
                 products.map((product, index) => {
                   return (
-                    <Product key={index} product={product} />
+                    <Pressable key={index} onPress={
+                      // @ts-ignore
+                      () => navigation.navigate('ProductDetails', {
+                        product: product,
+                      })
+                    }>
+                      <Product key={index} product={product} />
+                    </Pressable>
+
                   )
                 })
               }
             </ScrollView>
           </View>
         </View>
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <View style={styles.separator} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -127,12 +117,13 @@ const SearchInputField = () => {
 }
 
 // product type
+export type Product = {
+  name: string,
+  price: number,
+  image: string,
+}
 export type ProductProps = {
-  product: {
-    name: string,
-    price: number,
-    image: string,
-  }
+  product: Product
 }
 
 export const Product = ({ product }: ProductProps) => {
@@ -154,15 +145,9 @@ export const Product = ({ product }: ProductProps) => {
         <Pressable onPress={onPressToProductDetails}>
           <Text style={{ color: 'blue' }}>Add to cart</Text>
         </Pressable>
-
       </View>
-
-      {/* 
-      <Text>{product.name}</Text>
-      <Text>{product.price}</Text> */}
     </View>
   )
-
 }
 
 const styles = StyleSheet.create({

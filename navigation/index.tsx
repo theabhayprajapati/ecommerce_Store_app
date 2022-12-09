@@ -15,6 +15,11 @@ import useColorScheme from '../hooks/useColorScheme';
 import AccountScreenPage from '../screens/AccountScreenPage';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
+import AdminLogin from '../screens/Onboard/Admin.Login';
+import Login from '../screens/Onboard/login.onboard';
+import SignIn from '../screens/Onboard/signin.onboard';
+import UserLogin from '../screens/Onboard/User.Login';
+import ProductPage from '../screens/ProductPage';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
@@ -38,9 +43,24 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+
+    }}>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="ProductDetails"
+        component={ProductPage}
+        options={
+          {
+            title: 'Product Details',
+          }
+        } />
+      {/* login, signint */}
+      <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
+      <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+      {/* admin login , user login */}
+      <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ title: 'Admin Login' }} />
+      <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -48,10 +68,6 @@ function RootNavigator() {
   );
 }
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
@@ -61,13 +77,13 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: "white"
       }}>
       <BottomTab.Screen
         name="Home"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Home',  
+          title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Pressable

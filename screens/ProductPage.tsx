@@ -1,12 +1,8 @@
-import { Image, StyleSheet } from 'react-native'
-import { Text, View } from '../components/Themed'
-type ProductPageProps = {
-    name: string,
-    price: number,
-    image: string,
-}
-
-const ProductPage = ({ name, price, image }: ProductPageProps) => {
+import { Image, StyleSheet, Text, View } from 'react-native';
+const ProductPage = ({ route, navigation }: any) => {
+    console.log(route);
+    const product = route.params.product;
+    const { name, price, image } = product
     return (
         <View>
             <Text>{name}</Text>
