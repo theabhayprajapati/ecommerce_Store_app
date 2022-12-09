@@ -12,6 +12,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+import AccountScreenPage from '../screens/AccountScreenPage';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
@@ -66,7 +67,7 @@ function BottomTabNavigator() {
         name="Home"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Home',
+          title: 'Home',  
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Pressable
@@ -89,7 +90,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Account"
-        component={TabTwoScreen}
+        component={AccountScreenPage}
         options={{
           title: 'Account',
           tabBarIcon: ({ color }) => <FontAwesome name="user" size={30} color={color} />,
