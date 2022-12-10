@@ -1,45 +1,56 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-
+import axios from 'axios';
+import React from 'react';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import Product from '../components/Product.component';
 import { RootTabScreenProps } from '../types';
 
 const categories = ['All', 'Fruits', 'Vegetables', 'Meat', 'Fish', 'Dairy', 'Bakery', 'Drinks', 'Snacks', 'Others']
-const products = [
-  {
-    name: 'Apple',
-    price: 1.99,
-    image: 'https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-  },
-  {
-    name: 'Banana',
-    price: 1.99,
-    image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80',
-  }, {
-    name: 'Orange',
-    price: 1.99,
-    image: 'https://images.unsplash.com/photo-1557800636-894a64c1696f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80',
-  }
-  , {
-    name: "Milk",
-    price: 2.99,
-    image: "https://images.unsplash.com/photo-1523473827533-2a64d0d36748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-  }
-
-]
+export type ProductT = {
+  image: any,
+  title: string,
+  storename: string,
+  quantity: number,
+  desc: string,
+  price: number,
+}
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>) {
-  const onPressToProductDetails = (product: Product) => {
-    navigation.navigate
-      ('ProductDetails'), {
-      product: product
+  const [products, setProducts] = React.useState<ProductT[]>([])
+  const [searchedText, setSearchedText] = React.useState<string>('')
+  const [searchedProducts, setSearchedProducts] = React.useState<ProductT[]>([])
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://fakestoreapi.com/products");
+      console.log(response.data);
+      setProducts(response.data);
+      setSearchedProducts(response.data)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+  React.useEffect(() => {
+    if (searchedText.length > 0) {
+      const filteredProducts = products.filter((product) => {
+        return product.title.toLowerCase().trim().includes(searchedText.toLowerCase().trim())
+      })
+      setSearchedProducts(filteredProducts)
+    } else {
+      setSearchedProducts(products)
+    }
+  }, [searchedText])
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
           <Text style={styles.title}>Search Products</Text>
           {/* make a search box and  */}
-          <SearchInputField />
+          <SearchInputField searchedText={searchedText} setSearchedText={setSearchedText} />
           {/* <View style={styles.separator} />lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
           <Text style={styles.title}>Categories</Text>
           {/* make a list of categories */}
@@ -61,7 +72,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
           <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', flex: 1 }}>
             <ScrollView>
               {
-                products.map((product, index) => {
+                searchedProducts.map((product, index) => {
                   return (
                     <Pressable key={index} onPress={
                       // @ts-ignore
@@ -69,7 +80,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
                         product: product,
                       })
                     }>
-                      <Product key={index} product={product} />
+                      <Product key={index} {...product} />
                     </Pressable>
 
                   )
@@ -98,7 +109,7 @@ const Chip = ({ category }: ChipProps) => {
   )
 }
 // search input feild copoent
-const SearchInputField = () => {
+const SearchInputField = ({ searchedText, setSearchedText }: any) => {
   return (
     <View style={{
       flexDirection: 'row',
@@ -110,45 +121,37 @@ const SearchInputField = () => {
       borderRadius: 10,
     }}>
       <Ionicons name="search" size={24} color="black" />
-      <TextInput placeholder="Search" style={{ flex: 1 }} />
+      <TextInput placeholder="Search" style={{ flex: 1 }} value={searchedText} onChangeText={setSearchedText} />
       <Ionicons name="filter" size={24} color="black" />
     </View>
   )
 }
 
 // product type
-export type Product = {
-  name: string,
-  price: number,
-  image: string,
-}
-export type ProductProps = {
-  product: Product
-}
 
-export const Product = ({ product }: ProductProps) => {
+// export const Product = ({ product }: ProductProps) => {
 
-  /* onpress to another page */
-  const onPressToProductDetails = () => {
-    console.log("pressed")
-  }
+//   /* onpress to another page */
+//   const onPressToProductDetails = () => {
+//     console.log("pressed")
+//   }
 
-  return (
-    <View style={styles.product}>
-      {/* image */}
-      {/* two cols image and details with button but */}
+//   return (
+//     <View style={styles.product}>
+//       {/* image */}
+//       {/* two cols image and details with button but */}
 
-      <Image source={{ uri: product.image }} style={styles.image} />
-      <View style={styles.productdetails}>
-        <Text>{product.name}</Text>
-        <Text>{product.price}</Text>
-        <Pressable onPress={onPressToProductDetails}>
-          <Text style={{ color: 'blue' }}>Add to cart</Text>
-        </Pressable>
-      </View>
-    </View>
-  )
-}
+//       <Image source={{ uri: product.image }} style={styles.image} />
+//       <View style={styles.productdetails}>
+//         <Text>{product.title}</Text>
+//         <Text>{product.price}</Text>
+//         <Pressable onPress={onPressToProductDetails}>
+//           <Text style={{ color: 'blue' }}>Add to cart</Text>
+//         </Pressable>
+//       </View>
+//     </View>
+//   )
+// }
 
 const styles = StyleSheet.create({
   container: {
