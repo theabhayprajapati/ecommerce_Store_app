@@ -41,12 +41,16 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const isUserLoginIn = false;
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{
 
     }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      {
+        isUserLoginIn ? <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} /> :
+          <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+      }
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="ProductDetails"
         component={ProductPage}
@@ -57,7 +61,6 @@ function RootNavigator() {
         } />
       {/* login, signint */}
       <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
-      <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       {/* admin login , user login */}
       <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ title: 'Admin Login' }} />
       <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />

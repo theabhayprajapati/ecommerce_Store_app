@@ -1,18 +1,18 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
-    Image, StyleSheet,
+    StyleSheet,
     Text, TextInput, TouchableOpacity, View
 } from "react-native";
 
-export default function App() {
+export default function App({ navigation }: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     return (
         <View style={styles.container}>
             {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
-
+            
             <StatusBar style="auto" />
             <View style={styles.inputView}>
                 <TextInput
@@ -37,7 +37,15 @@ export default function App() {
                 <Text style={styles.forgot_button}>Forgot Password?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={
+                    () => {
+                        console.log("Login button pressed");
+                        return navigation.navigate('Root')
+                    }
+                }
+            >
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
         </View>
@@ -90,5 +98,5 @@ const styles = StyleSheet.create({
     loginText: {
         color: "white",
     },
-    
+
 });

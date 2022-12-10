@@ -5,7 +5,7 @@ import {
     Text, TextInput, TouchableOpacity, View
 } from "react-native";
 
-export default function AdminLogin() {
+export default function AdminLogin({ navigation }: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -36,7 +36,12 @@ export default function AdminLogin() {
                 <Text style={styles.forgot_button}>Forgot Password?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={
+                () => {
+                    console.log("Login button pressed");
+                    return navigation.navigate('Root')
+                }
+            }>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
         </View>
