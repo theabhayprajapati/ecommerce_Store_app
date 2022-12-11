@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { ProductT } from "../screens/TabOneScreen";
+import { useAppContext } from "../globals/AppContext";
+import { ProductT } from "../types";
+
 
 const styles = StyleSheet.create({
     container: {
@@ -51,8 +53,9 @@ const styles = StyleSheet.create({
     },
 });
 
-
 const Product = (props: ProductT) => {
+    const AppContext = useAppContext();
+    console.log("AppContext", AppContext);
     return (
         <View style={styles.container}>
             <Image style={styles.image} resizeMode="contain" source={{ uri: props.image }} />

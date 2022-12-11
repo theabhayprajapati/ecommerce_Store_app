@@ -9,6 +9,7 @@ import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
+import ProductDetails from '../components/ProductsDetail.components';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -134,7 +135,7 @@ const UserNavigator = () => {
       }
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="ProductDetails"
-        component={ProductPage}
+        component={ProductDetails}
         options={
           {
             title: 'Product Details',

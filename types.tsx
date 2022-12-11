@@ -48,3 +48,37 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+export type ProductT = {
+  id: string,
+  image: any,
+  title: string,
+  storename: string,
+  quantity: number,
+  desc: string,
+  price: number,
+}
+export type OrderT = {
+  productId: string,
+  productName: string,
+  productprice: number,
+  productquantity: number,
+  productstatus: string,
+  date: Date,
+  adminId: string,
+  adminName: string,
+  userId: string,
+}
+
+/* cart item type */
+export type CartItemT = OrderT;
+export type AppContextT = {
+  currentUser: any;
+  setCurrentUser: React.Dispatch<React.SetStateAction<any>>;
+  products: ProductT[];
+  setProducts: React.Dispatch<React.SetStateAction<ProductT[]>>;
+  cartItems: CartItemT[];
+  setCartItems: React.Dispatch<React.SetStateAction<CartItemT[]>>;
+  orderedProducts: OrderT[];
+  setOrderedProducts: React.Dispatch<React.SetStateAction<OrderT[]>>;
+};
+

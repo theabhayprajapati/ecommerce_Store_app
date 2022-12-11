@@ -3,17 +3,10 @@ import axios from 'axios';
 import React from 'react';
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Product from '../components/Product.component';
-import { RootTabScreenProps } from '../types';
+import { ProductT, RootTabScreenProps } from '../types';
 
 const categories = ['All', 'Fruits', 'Vegetables', 'Meat', 'Fish', 'Dairy', 'Bakery', 'Drinks', 'Snacks', 'Others']
-export type ProductT = {
-  image: any,
-  title: string,
-  storename: string,
-  quantity: number,
-  desc: string,
-  price: number,
-}
+
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const [products, setProducts] = React.useState<ProductT[]>([])
   const [searchedText, setSearchedText] = React.useState<string>('')
@@ -78,6 +71,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
                       // @ts-ignore
                       () => navigation.navigate('ProductDetails', {
                         product: product,
+                        searchedProducts: searchedProducts
                       })
                     }>
                       <Product key={index} {...product} />
@@ -122,7 +116,13 @@ const SearchInputField = ({ searchedText, setSearchedText }: any) => {
     }}>
       <Ionicons name="search" size={24} color="black" />
       <TextInput placeholder="Search" style={{ flex: 1 }} value={searchedText} onChangeText={setSearchedText} />
-      <Ionicons name="filter" size={24} color="black" />
+      {
+        searchedText.length > 0 && (
+          <Pressable onPress={() => setSearchedText('')}>
+            <Ionicons name="close" size={24} color="black" />
+          </Pressable>
+        )
+      }
     </View>
   )
 }
