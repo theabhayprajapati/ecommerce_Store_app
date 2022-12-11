@@ -26,6 +26,7 @@ export type RootStackParamList = {
   AdminRoot: undefined;
   ModifyProductPage: undefined;
   AllOrders: undefined;
+  URoot: undefined;
   AdminAddProductPage: undefined;
 };
 
@@ -72,7 +73,9 @@ export type OrderT = {
 /* cart item type */
 export type CartItemT = OrderT;
 export type AppContextT = {
-  currentUser: any;
+  currentUser: {
+    type: string;
+  } & any;
   setCurrentUser: React.Dispatch<React.SetStateAction<any>>;
   products: ProductT[];
   setProducts: React.Dispatch<React.SetStateAction<ProductT[]>>;
@@ -80,5 +83,7 @@ export type AppContextT = {
   setCartItems: React.Dispatch<React.SetStateAction<CartItemT[]>>;
   orderedProducts: OrderT[];
   setOrderedProducts: React.Dispatch<React.SetStateAction<OrderT[]>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

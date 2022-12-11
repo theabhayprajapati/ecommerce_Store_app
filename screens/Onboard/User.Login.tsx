@@ -1,12 +1,43 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import {
     StyleSheet,
     Text, TextInput, TouchableOpacity, View
 } from "react-native";
+import { useAppContext } from "../../globals/AppContext";
+import { UserLoginMethod } from "../../globals/backend/user";
 
 export default function UserLogin({ navigation }: any) {
+    const { setCurrentUser }: any = useAppContext();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const handleLogin = async () => {
+        const res = await UserLoginMethod(email, password);
+        console.log(res);
+        if (res) {
+            setCurrentUser(
+                (prev: any) => ({
+                    ...prev,
+                    ...res,
+                    type: 'user',
+                })
+            );
+            // /* use async storage */
+            // await AsyncStorage.setItem('user', JSON.stringify(res));
+            /* get all items of user key and add token */
+            const user: any = await AsyncStorage.getItem('user');
+            var userObj = JSON.parse(user) || {};
+            userObj.token = res.token;
+            // userObj.token = res.token;
+            console.log(userObj);
+            await AsyncStorage.setItem('user', JSON.stringify(userObj));
+            // back to starting page
+            // Root
+            navigation.navigate('UserRoot');
+
+        }
+    }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -23,7 +54,7 @@ export default function UserLogin({ navigation }: any) {
             />
             <TouchableOpacity style={{
                 width: "100%",
-            }} onPress={() => navigation.navigate('SignUp')}>
+            }} onPress={() => navigation.navigate('Signin')}>
                 <Text
                     style={{
                         color: '#00bcd4',
@@ -31,7 +62,7 @@ export default function UserLogin({ navigation }: any) {
                     }}
                 >Sign Up</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => { }}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
         </View>
@@ -51,14 +82,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 10,
         margin: 10,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     button: {
         width: "100%",
         backgroundColor: '#00bcd4',
         padding: 10,
         margin: 10,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     buttonText: {
         color: '#fff',

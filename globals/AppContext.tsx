@@ -1,10 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { AppContextT, CartItemT, OrderT, ProductT } from "../types";
-const AppContext = React.createContext({});
 
-export const useAppContext = () => React.useContext(AppContext);
-
+const AppContext = React.createContext<AppContextT>({} as AppContextT);
+export const useAppContext = () => React.useContext<AppContextT>(AppContext);
 /* children types */
 type AppProviderProps = {
     children: React.ReactNode;
@@ -50,10 +49,14 @@ const setDataToAsyncStorage = async (key, value) => {
 /* const inital state */
 
 const AppProvider = ({ children }: AppProviderProps) => {
+    const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
     const [currentUser, setCurrentUser] = React.useState<any>({});
     const [products, setProducts] = React.useState<ProductT[]>([]);
     const [cartItems, setCartItems] = React.useState<CartItemT[]>([]);
     const [orderedProducts, setOrderedProducts] = React.useState<OrderT[]>([]);
+    /* get  */
+    console.log("Data from AsyncStorage: ");
+    console.log(getDataFromAsyncStorage());
 
     const value: AppContextT = {
         currentUser,
@@ -64,6 +67,8 @@ const AppProvider = ({ children }: AppProviderProps) => {
         setCartItems,
         orderedProducts,
         setOrderedProducts,
+        isLoggedIn,
+        setIsLoggedIn
     };
 
     return (

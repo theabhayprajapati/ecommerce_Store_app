@@ -5,7 +5,6 @@
 import React, { createRef, useState } from 'react';
 import {
     ActivityIndicator,
-    Keyboard,
     KeyboardAvoidingView,
     ScrollView,
     StyleSheet,
@@ -14,6 +13,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import { UserCreateMethod } from '../../globals/backend/user';
 
 // import Loader from './Components/Loader';
 
@@ -25,6 +25,8 @@ const Loader = ({ loading }) => {
             alignItems: 'center',
             position: 'absolute',
             left: 0,
+            width: '100%',
+            height: '5%',
         }}>
             <View style={{
                 flex: 1,
@@ -43,7 +45,7 @@ const RegisterScreen = (props) => {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [userAge, setUserAge] = useState('');
-    const [userAddress, setUserAddress] = useState('');
+    const [userPhone, setUserPhone] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
@@ -53,11 +55,20 @@ const RegisterScreen = (props) => {
     ] = useState(false);
 
     const emailInputRef = createRef();
-    const ageInputRef = createRef();
+    const phoneInputRef = createRef();
     const addressInputRef = createRef();
     const passwordInputRef = createRef();
 
-    const handleSubmitButton = () => {
+    const handleSubmitButton = async () => {
+        const response = await UserCreateMethod(
+            {
+                name: userName,
+                email: userEmail,
+                phone: userPhone,
+                password: userPassword,
+            }
+        )
+        console.log(response);
         console.log('handleSubmitButton');
     }
     if (isRegistraionSuccess) {
@@ -81,10 +92,8 @@ const RegisterScreen = (props) => {
         );
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
-            <Loader loading={
-                loading
-            } />
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+
             <ScrollView
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{
@@ -130,31 +139,13 @@ const RegisterScreen = (props) => {
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
-                            onChangeText={(UserPassword) =>
-                                setUserPassword(UserPassword)
-                            }
+                            /* phone */
+                            onChangeText={(UserPhone) => setUserPhone(UserPhone)}
                             underlineColorAndroid="#f000"
-                            placeholder="Enter Password"
-                            placeholderTextColor="#8b9cb5"
-                            ref={passwordInputRef}
-                            returnKeyType="next"
-                            secureTextEntry={true}
-                            onSubmitEditing={() =>
-                                ageInputRef.current &&
-                                ageInputRef.current.focus()
-                            }
-                            blurOnSubmit={false}
-                        />
-                    </View>
-                    <View style={styles.SectionStyle}>
-                        <TextInput
-                            style={styles.inputStyle}
-                            onChangeText={(UserAge) => setUserAge(UserAge)}
-                            underlineColorAndroid="#f000"
-                            placeholder="Enter Age"
+                            placeholder="Enter Phone"
                             placeholderTextColor="#8b9cb5"
                             keyboardType="numeric"
-                            ref={ageInputRef}
+                            ref={phoneInputRef}
                             returnKeyType="next"
                             onSubmitEditing={() =>
                                 addressInputRef.current &&
@@ -166,19 +157,26 @@ const RegisterScreen = (props) => {
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
-                            onChangeText={(UserAddress) =>
-                                setUserAddress(UserAddress)
+                            onChangeText={(UserPassword) =>
+                                setUserPassword(UserPassword)
                             }
                             underlineColorAndroid="#f000"
-                            placeholder="Enter Address"
+                            placeholder="Enter Password"
                             placeholderTextColor="#8b9cb5"
-                            autoCapitalize="sentences"
-                            ref={addressInputRef}
+                            ref={passwordInputRef}
                             returnKeyType="next"
-                            onSubmitEditing={Keyboard.dismiss}
+                            secureTextEntry={true}
+                            onSubmitEditing={() =>
+                                phoneInputRef.current &&
+                                phoneInputRef.current.focus()
+                            }
                             blurOnSubmit={false}
                         />
                     </View>
+
+
+
+
                     {errortext != '' ? (
                         <Text style={styles.errorTextStyle}>
                             {errortext}
@@ -205,15 +203,16 @@ const styles = StyleSheet.create({
         marginLeft: 35,
         marginRight: 35,
         margin: 10,
+
     },
     buttonStyle: {
-        backgroundColor: '#7DE24E',
+        backgroundColor: 'grey',
         borderWidth: 0,
         color: '#FFFFFF',
         borderColor: '#7DE24E',
         height: 40,
         alignItems: 'center',
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 35,
         marginRight: 35,
         marginTop: 20,
@@ -226,11 +225,11 @@ const styles = StyleSheet.create({
     },
     inputStyle: {
         flex: 1,
-        color: 'white',
+        color: 'black',
         paddingLeft: 15,
         paddingRight: 15,
         borderWidth: 1,
-        borderRadius: 30,
+        borderRadius: 10,
         borderColor: '#dadae8',
     },
     errorTextStyle: {

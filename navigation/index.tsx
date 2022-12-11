@@ -12,7 +12,6 @@ import { Pressable } from 'react-native';
 import ProductDetails from '../components/ProductsDetail.components';
 
 import Colors from '../constants/Colors';
-import { useAppContext } from '../globals/AppContext';
 import useColorScheme from '../hooks/useColorScheme';
 import AccountScreenPage from '../screens/AccountScreenPage';
 import AddProduct from '../screens/admin/AddProduct.admin';
@@ -45,23 +44,41 @@ const isUserLoginIn = true;
 type usertype = 'admin' | 'user' | 'guest';
 var type: usertype = 'user';
 function RootNavigator() {
-  const { currentUser } = useAppContext()
+  // const { isLoggedIn, currentUser } = useAppContext()
+  const isLoggedIn = true;
+  const currentUser = { type: 'user' };
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {
-        type == 'admin' ? <Stack.Screen name="AdminRoot" component={AdminNavigator} /> :
-          <Stack.Screen name="UserRoot" component={UserNavigator} />
+        isLoggedIn ? (
+          currentUser.type == "admin" ? <Stack.Screen name="AdminRoot" component={AdminNavigator} options={{ headerShown: false }} /> :
+            <Stack.Screen name="UserRoot" component={UserNavigator} options={{ headerShown: false }} />
+        ) :
+          <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       }
+      <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="URoot" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ title: 'Product Details' }} />
+      <Stack.Screen name="ModifyProductPage" component={ModifyProductPage} options={{
+        title: 'Modify Product',
+      }} />
+      <Stack.Screen name="AdminAddProductPage" component={AddProduct} options={{
+        title: 'Add Product',
+      }} />
+      <Stack.Screen name="AllOrders" component={AllOrders} options={{
+        title: 'All Orders',
+      }} />
     </Stack.Navigator>
   );
 }
 
 const AdminNavigator = () => {
-  const { currentUser } = useAppContext()
+  const currentUser = { type: 'user' };
+
   return (
     <Stack.Navigator>
       {
-
         currentUser.type == "admin" ? <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} /> :
           <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       }
@@ -124,7 +141,8 @@ const AdminNavigator = () => {
 }
 
 const UserNavigator = () => {
-  const { currentUser } = useAppContext()
+  const currentUser = { type: 'user' };
+
   return (
     <Stack.Navigator>
       {
@@ -142,6 +160,7 @@ const UserNavigator = () => {
       {/* login, signint */}
       <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
       {/* admin login , user login */}
+      <Stack.Screen name="UserRoot" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ title: 'Admin Login' }} />
       <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

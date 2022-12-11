@@ -23,7 +23,7 @@ export default function AdminLogin({ navigation }: any) {
             />
             <TouchableOpacity style={{
                 width: "100%",
-            }} onPress={() => navigation.navigate('SignUp')}>
+            }} onPress={() => navigation.navigate('Signin')}>
                 <Text
                     style={{
                         color: '#00bcd4',
@@ -55,10 +55,12 @@ const styles = StyleSheet.create({
     },
     button: {
         width: "100%",
-        backgroundColor: '#00bcd4',
-        padding: 10,
-        margin: 10,
-        borderRadius: 5,
+        backgroundColor: 'grey',
+        marginTop: 10,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
     },
     buttonText: {
         color: '#fff',
