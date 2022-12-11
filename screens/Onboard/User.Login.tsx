@@ -1,102 +1,68 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
     StyleSheet,
     Text, TextInput, TouchableOpacity, View
 } from "react-native";
 
-export default function App({ navigation }: any) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
+export default function UserLogin({ navigation }: any) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     return (
         <View style={styles.container}>
-            {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
-            
-            <StatusBar style="auto" />
-            <View style={styles.inputView}>
-                <TextInput
-                    style={styles.TextInput}
-                    placeholder="Email."
-                    placeholderTextColor="#003f5c"
-                    onChangeText={(email) => setEmail(email)}
-                />
-            </View>
-
-            <View style={styles.inputView}>
-                <TextInput
-                    style={styles.TextInput}
-                    placeholder="Password."
-                    placeholderTextColor="#003f5c"
-                    secureTextEntry={true}
-                    onChangeText={(password) => setPassword(password)}
-                />
-            </View>
-
-            <TouchableOpacity>
-                <Text style={styles.forgot_button}>Forgot Password?</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+            />
+            <TouchableOpacity style={{
+                width: "100%",
+            }} onPress={() => navigation.navigate('SignUp')}>
+                <Text
+                    style={{
+                        color: '#00bcd4',
+                        fontWeight: 'bold',
+                    }}
+                >Sign Up</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={
-                    () => {
-                        console.log("Login button pressed");
-                        return navigation.navigate('Root')
-                    }
-                }
-            >
-                <Text style={styles.loginText}>LOGIN</Text>
+            <TouchableOpacity style={styles.button} onPress={() => { }}>
+                <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
     },
-
-    image: {
-        marginBottom: 40,
-    },
-
-    inputView: {
-        backgroundColor: "#FFC0CB",
-        borderRadius: 30,
-        width: "70%",
-        height: 45,
-        marginBottom: 20,
-
-        alignItems: "center",
-    },
-
-    TextInput: {
+    input: {
+        width: "100%",
         height: 50,
-        flex: 1,
+        backgroundColor: '#fff',
         padding: 10,
-        marginLeft: 20,
+        margin: 10,
+        borderRadius: 5,
     },
-
-    forgot_button: {
-        height: 30,
-        marginBottom: 30,
+    button: {
+        width: "100%",
+        backgroundColor: '#00bcd4',
+        padding: 10,
+        margin: 10,
+        borderRadius: 5,
     },
-
-    loginBtn: {
-        width: "80%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40,
-        backgroundColor: "#FF1493",
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
-    loginText: {
-        color: "white",
-    },
-
 });

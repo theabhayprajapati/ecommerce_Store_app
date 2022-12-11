@@ -1,13 +1,56 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { AppContextT, CartItemT, OrderT, ProductT } from "../types";
-
 const AppContext = React.createContext({});
 
 export const useAppContext = () => React.useContext(AppContext);
 
-const AppProvider = ({ children }: any) => {
-    // type of user
-    const [currentUser, setCurrentUser] = React.useState(null);
+/* children types */
+type AppProviderProps = {
+    children: React.ReactNode;
+};
+const INITIAL_STATE = {
+    currentUser: {
+        type: "guest",
+    },
+    products: [],
+    cartItems: [],
+    orderedProducts: [],
+};
+
+
+const getDataFromAsyncStorage = async () => {
+    const currentUser = await AsyncStorage.getItem("currentUser");
+    const products = await AsyncStorage.getItem("products");
+    const cartItems = await AsyncStorage.getItem("cartItems");
+    const orderedProducts = await AsyncStorage.getItem("orderedProducts");
+    console.log("currentUser", currentUser);
+    console.log("products", products);
+    console.log("cartItems", cartItems);
+    console.log("orderedProducts", orderedProducts);
+    return {
+        currentUser: currentUser ? JSON.parse(currentUser) : {},
+        products: products ? JSON.parse(products) : [],
+        cartItems: cartItems ? JSON.parse(cartItems) : [],
+        orderedProducts: orderedProducts ? JSON.parse(orderedProducts) : [],
+    };
+};
+const setDataToAsyncStorage = async (key, value) => {
+    await AsyncStorage
+        .setItem
+        (key, JSON.stringify(value))
+        .then(() => {
+            console.log("Data successfully saved");
+        })
+        .catch((error) => {
+            console.log("Error saving data", error);
+        });
+};
+
+/* const inital state */
+
+const AppProvider = ({ children }: AppProviderProps) => {
+    const [currentUser, setCurrentUser] = React.useState<any>({});
     const [products, setProducts] = React.useState<ProductT[]>([]);
     const [cartItems, setCartItems] = React.useState<CartItemT[]>([]);
     const [orderedProducts, setOrderedProducts] = React.useState<OrderT[]>([]);

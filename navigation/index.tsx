@@ -5,13 +5,14 @@
  */
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import ProductDetails from '../components/ProductsDetail.components';
 
 import Colors from '../constants/Colors';
+import { useAppContext } from '../globals/AppContext';
 import useColorScheme from '../hooks/useColorScheme';
 import AccountScreenPage from '../screens/AccountScreenPage';
 import AddProduct from '../screens/admin/AddProduct.admin';
@@ -24,32 +25,27 @@ import AdminLogin from '../screens/Onboard/Admin.Login';
 import Login from '../screens/Onboard/login.onboard';
 import SignIn from '../screens/Onboard/signin.onboard';
 import UserLogin from '../screens/Onboard/User.Login';
-import ProductPage from '../screens/ProductPage';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      linking={LinkingConfiguration}>
       <RootNavigator />
     </NavigationContainer>
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const isUserLoginIn = true;
 type usertype = 'admin' | 'user' | 'guest';
-var type = 'user';
+var type: usertype = 'user';
 function RootNavigator() {
+  const { currentUser } = useAppContext()
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {
@@ -59,12 +55,14 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
 const AdminNavigator = () => {
+  const { currentUser } = useAppContext()
   return (
-    <Stack.Navigator screenOptions={{
-    }}>
+    <Stack.Navigator>
       {
-        isUserLoginIn ? <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} /> :
+
+        currentUser.type == "admin" ? <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} /> :
           <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       }
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
@@ -124,13 +122,13 @@ const AdminNavigator = () => {
     </Stack.Navigator>
   )
 }
-const UserNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={{
 
-    }}>
+const UserNavigator = () => {
+  const { currentUser } = useAppContext()
+  return (
+    <Stack.Navigator>
       {
-        isUserLoginIn ? <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} /> :
+        currentUser.type == "user" ? <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} /> :
           <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       }
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
@@ -153,12 +151,10 @@ const UserNavigator = () => {
   )
 }
 
-
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -249,11 +245,6 @@ const AdminBottomTabNavigator = () => {
 
 }
 
-
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;

@@ -15,7 +15,6 @@ const ModifyProductPage = () => {
     })
 
     const onChange = (e: any) => {
-        console.log(e);
         setProduct({ ...product, [e.target.name]: e.target.value })
     }
 

@@ -1,10 +1,8 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Product, products } from '../TabOneScreen';
-
-
-type orderedProduct = Product & { quantity?: number, status?: string, id?: number };
+import { ProductT } from '../../types';
+type orderedProduct = ProductT & { quantity?: number, status?: string, id?: number };
 
 function AllOrders() {
     const [orders, setOrders] = useState<orderedProduct[]>([]);
@@ -15,15 +13,13 @@ function AllOrders() {
         // ...
 
         /* print all products */
-        console.log(products);
         // Set the fetched orders as the value of the orders state
-        setOrders(products);
+        setOrders([]);
     }, []);
 
     const updateProductStatus = (id?: string, status?: string) => {
         // Update the status of the product with the given id
         // ...
-        console.log(id, status);
         setOrders(orders.map(order => {
             if (order.image === id) {
                 return { ...order, status };
@@ -44,7 +40,7 @@ function AllOrders() {
             >
                 {orders.map(product => (
                     <View key={product.image}>
-                        <Text>{product.name}</Text>
+                        <Text>{product.title}</Text>
                         <Picker
                             selectedValue={product.status}
                             onValueChange={status => updateProductStatus(product.image, status)}
