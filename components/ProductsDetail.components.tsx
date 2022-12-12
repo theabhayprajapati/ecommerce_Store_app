@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useAppContext } from "../globals/AppContext";
 
 
@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
     image: {
         width: 200,
         height: 200,
+        flex: 1,
         marginBottom: 20,
+        /* center */
+        alignSelf: "center",
+
     },
     title: {
         fontSize: 24,
@@ -48,13 +52,44 @@ const ProductDetails = ({ route, navigation }: any) => {
                 source={{ uri: product.image }}
                 resizeMode="contain"
             />
-            <Text style={styles.title}>{product.title}</Text>
-            <Text style={styles.description}>{product.description}</Text>
-            {/* <Text style={styles.price}>{product */}
-            {/* .price}</Text> */}
-            {/* show price till two decimal */}
-            <Text style={styles.price}>{product.price.toFixed(2)}</Text>
-            <Button title="Add nato Cart" onPress={addToCart} />
+            <View style={{ flex: 1 }}>
+                <Text style={styles.title} numberOfLines={2}>{product.title}</Text>
+                <Text style={{
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    marginBottom: 20,
+                    color: "green",
+                }}>{product.adminName}</Text>
+                {/*  */}
+                <Text style={styles.description} numberOfLines={7}>{product.description}</Text>
+                <Text style={styles.price}>{product.price.toFixed(2)}</Text>
+                {/* touch able opacity with at bottom abosulte */}
+
+            </View>
+
+
+            <TouchableOpacity
+                style={{
+                    position: "absolute",
+                    bottom: 10,
+                    height: 50,
+                    width: "100%",
+                    backgroundColor: "#e3f2fd",
+                    padding: 10,
+                    borderRadius: 10,
+                }}
+                onPress={addToCart}
+            >
+                <Text
+                    style={{
+                        color: "#00bcd4",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                    }}
+                >
+                    Add to Cart
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 };

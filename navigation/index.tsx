@@ -55,8 +55,7 @@ function RootNavigator() {
         (isLoggedIn == true || 'true') ? (
           currentUser.type == "admin" ? <Stack.Screen name="AdminRoot" component={AdminNavigator} options={{ headerShown: false }} /> :
             <Stack.Screen name="UserRoot" component={UserNavigator} options={{ headerShown: false }} />
-        ) :
-          <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+        ) : <Stack.Screen name="Login" component={Login} options={{ title: 'Login', headerShown: false }} />
       }
       <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="URoot" component={BottomTabNavigator} options={{ headerShown: false }} />
@@ -155,7 +154,9 @@ const UserNavigator = () => {
     <Stack.Navigator>
       {
         currentUser.type == "user" ? <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} /> :
-          <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+          <Stack.Screen name="Login" component={Login} options={
+            { headerShown: false }
+          } />
       }
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="ProductDetails"
@@ -185,7 +186,7 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "white"
+        tabBarActiveTintColor: "black"
       }}>
       <BottomTab.Screen
         name="Home"

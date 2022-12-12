@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll"
   },
+  "homepage": "/",
   "jest": {
     "preset": "jest-expo"
   },

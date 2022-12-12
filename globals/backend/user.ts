@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-export var mode = "dev";
+export var mode = "prod";
 /* https://backendforecommstore-production.up.railway.app/ */
 export const API_URL = mode != "dev" ? "https://backendforecommstore-production.up.railway.app" : "http://localhost:3000"
 const UserLoginMethod = async (email: string, password: string) => {
@@ -11,10 +11,14 @@ const UserLoginMethod = async (email: string, password: string) => {
             email,
             password,
         });
+        // alert(data);
+        // to string
+        alert(JSON.stringify(data));
         console.log(data);
         return data;
     } catch (error: any) {
         console.log(error.response.data);
+        alert(error.response.data);
         return error.response.data;
     }
 };
@@ -31,9 +35,13 @@ const UserCreateMethod = async (user) => {
             phone,
             password,
         });
+        // alert(data);
+        alert(JSON.stringify(data));
         console.log(data);
         return data;
     } catch (error: any) {
+        alert(JSON.stringify(error.response.data));
+        alert(error.response.data);
         console.log(error.response.data);
         return error.response.data;
     }
@@ -45,6 +53,5 @@ const UserCreateMethod = async (user) => {
 export {
     UserLoginMethod,
     UserCreateMethod
-
 };
 
