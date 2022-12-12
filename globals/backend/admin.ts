@@ -1,8 +1,7 @@
 /* login */
 import axios from "axios";
-import { mode } from "./user";
+import { API_URL } from "./user";
 /* https://backendforecommstore-production.up.railway.app/ */
-const API_URL = mode != "dev" ? "https://backendforecommstore-production.up.railway.app" : "http://localhost:3000"
 
 const AdminLoginMethod = async (email: string, password: string) => {
     try {

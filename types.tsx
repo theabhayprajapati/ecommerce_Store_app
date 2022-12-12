@@ -30,6 +30,7 @@ export type RootStackParamList = {
   AdminAddProductPage: undefined;
   RUserRoot: undefined;
   RAdminRoot: undefined;
+  RLogin: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

@@ -41,7 +41,9 @@ const Loader = ({ loading }) => {
     );
 };
 
-const RegisterScreen = (props) => {
+const RegisterScreen = ({ navigation }) => {
+
+
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [userAge, setUserAge] = useState('');
@@ -70,6 +72,7 @@ const RegisterScreen = (props) => {
         )
         console.log(response);
         console.log('handleSubmitButton');
+        navigation.navigate('Login');
     }
     if (isRegistraionSuccess) {
         return (

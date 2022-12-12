@@ -4145,6 +4145,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-js@^3.1.9-1:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
+  integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
+
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
@@ -5104,6 +5109,13 @@ expo-image-picker@~14.0.2:
   dependencies:
     expo-image-loader "~4.0.0"
     uuid "7.0.2"
+
+expo-jwt@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/expo-jwt/-/expo-jwt-1.4.1.tgz#2b9549d1f2a37148f01686f6eed9ba115e71409b"
+  integrity sha512-rjtJrizPNLnPxnTq8WPYIUJEM2VvXGZaNuA8mALqLywQd07/a9bTTmLI1PXz52nuc/yJgpXE+ZLICpjt/SFPgw==
+  dependencies:
+    crypto-js "^3.1.9-1"
 
 expo-keep-awake@~11.0.1:
   version "11.0.1"

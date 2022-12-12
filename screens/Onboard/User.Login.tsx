@@ -1,4 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import JWT from "expo-jwt";
 import React, { useState } from "react";
 import {
     Image,
@@ -8,6 +10,9 @@ import {
 import { useAppContext } from "../../globals/AppContext";
 import { UserLoginMethod } from "../../globals/backend/user";
 
+const jwt_decode = (token: string) => {
+    return JWT.decode(token, "TjWnZr4u7w!z%C*F-JaNdRgUkXp2s5v8bQeThWmZq4t7w9z$C&F)K")
+}
 export default function UserLogin({ navigation }: any) {
     const { setCurrentUser, currentUser }: any = useAppContext();
     const [email, setEmail] = useState('');
@@ -16,20 +21,27 @@ export default function UserLogin({ navigation }: any) {
         const res = await UserLoginMethod(email, password);
         console.log(res);
         if (res) {
-            setCurrentUser(
-                (prev: any) => ({
-                    ...prev,
-                    ...res,
-                    type: 'user',
-                })
-            );
-
-            await AsyncStorage.setItem('currentUser', JSON.stringify({
-                ...res, type: 'user'
-            }));
-            await AsyncStorage.setItem('isLoggedIn', 'true');
-            console.log(AsyncStorage);
-            navigation.navigate('RUserRoot');
+            if (res.message == "login successful") {
+                /* get data from user res.token jwt*/
+                const userData = jwt_decode(res.token);
+                console.log(userData)
+                setCurrentUser(
+                    (prev: any) => ({
+                        ...prev,
+                        ...res,
+                        type: 'user',
+                    })
+                );
+                await AsyncStorage.setItem('currentUser', JSON.stringify({
+                    ...userData.userWithoutPassword,
+                    type: 'user'
+                }));
+                await AsyncStorage.setItem('isLoggedIn', 'true');
+                console.log(AsyncStorage);
+                navigation.navigate('RUserRoot');
+            } else {
+                navigation.navigate('Login');
+            }
         }
     }
 

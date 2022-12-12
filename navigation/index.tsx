@@ -47,7 +47,7 @@ function RootNavigator() {
     "Main Root Navigator: ",
     isLoggedIn,
     currentUser
-    
+
   )
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -67,6 +67,7 @@ function RootNavigator() {
       <Stack.Screen name="RUserRoot" component={UserNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="RAdminRoot" component={AdminNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
+      <Stack.Screen name="RLogin" component={Login} options={{ title: 'Login' }} />
       <Stack.Screen name="ModifyProductPage" component={ModifyProductPage} options={{
         title: 'Modify Product',
       }} />
@@ -192,15 +193,6 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome name="plus" size={30} color={Colors[colorScheme].tint} />
-            </Pressable>
-          ),
         })}
       />
       <BottomTab.Screen

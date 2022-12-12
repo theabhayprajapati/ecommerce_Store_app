@@ -9,7 +9,7 @@ import { ProductT, RootTabScreenProps } from '../types';
 
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>) {
-  const { products , setProducts} = useAppContext();
+  const { products, setProducts, currentUser } = useAppContext();
   const [searchedText, setSearchedText] = React.useState<string>('')
   const [searchedProducts, setSearchedProducts] = React.useState<ProductT[]>([])
   const fetchData = async () => {
@@ -41,6 +41,14 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
+
+          <Text style={{
+            ...styles.title,
+            marginBottom: 10,
+          }}>Hii {
+              currentUser?.name.split(' ')[0]
+            }</Text>
+
           <Text style={styles.title}>Search Products</Text>
           {/* make a search box and  */}
           <SearchInputField searchedText={searchedText} setSearchedText={setSearchedText} />
