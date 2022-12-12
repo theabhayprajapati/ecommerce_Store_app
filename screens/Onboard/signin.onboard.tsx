@@ -41,7 +41,7 @@ const Loader = ({ loading }) => {
     );
 };
 
-const RegisterScreen = ({ navigation }) => {
+const UserSignComponent = ({ navigation }) => {
 
 
     const [userName, setUserName] = useState('');
@@ -196,7 +196,7 @@ const RegisterScreen = ({ navigation }) => {
         </View>
     );
 };
-export default RegisterScreen;
+export { UserSignComponent };
 
 const styles = StyleSheet.create({
     SectionStyle: {

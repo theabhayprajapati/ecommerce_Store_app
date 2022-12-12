@@ -30,6 +30,7 @@ export type RootStackParamList = {
   AdminAddProductPage: undefined;
   RUserRoot: undefined;
   RAdminRoot: undefined;
+  AdminSignUp: undefined;
   RLogin: undefined;
 };
 

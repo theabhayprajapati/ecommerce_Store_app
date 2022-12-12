@@ -5,13 +5,15 @@ import { API_URL } from "./user";
 
 const AdminLoginMethod = async (email: string, password: string) => {
     try {
-        const { data } = await axios.post(`${API_URL}/login`, {
+        const { data } = await axios.post(`${API_URL}/admin/login`, {
             email,
             password,
         });
         console.log(data);
+        alert(JSON.stringify(data));
         return data;
     } catch (error: any) {
+        alert(JSON.stringify(error.response.data))
         return error.response.data;
     }
 };
@@ -22,16 +24,18 @@ const AdminLoginMethod = async (email: string, password: string) => {
 
 const AdminCreateMethod = async (name: string, email: string, phone: string, password: string, storeName: string) => {
     try {
-        const { data } = await axios.post(`${API_URL}/admin/login`, {
-            name,
+        const { data } = await axios.post(`${API_URL}/admin/signup`, {
             email,
-            phone,
-            storeName,
             password,
+            phone: phone.toString(),
+            name,
+            storeName,
         });
         console.log(data);
+        alert(JSON.stringify(data))
         return data;
     } catch (error: any) {
+        alert(JSON.stringify(error.response.data))
         return error.response.data;
     }
 };

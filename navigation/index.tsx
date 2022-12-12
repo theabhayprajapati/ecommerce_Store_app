@@ -19,11 +19,12 @@ import AddProduct from '../screens/admin/AddProduct.admin';
 import AllOrders from '../screens/admin/AllOrders.admin';
 import AdminHomePage from '../screens/admin/HomePage';
 import ModifyProductPage from '../screens/admin/ModifyProduct.admin';
+import AdminRegisterScreen from '../screens/admin/SignUp.admin';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import AdminLogin from '../screens/Onboard/Admin.Login';
 import Login from '../screens/Onboard/login.onboard';
-import SignIn from '../screens/Onboard/signin.onboard';
+import { UserSignComponent } from '../screens/Onboard/signin.onboard';
 import UserLogin from '../screens/Onboard/User.Login';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
@@ -65,7 +66,8 @@ function RootNavigator() {
       <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />
       <Stack.Screen name="RUserRoot" component={UserNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="RAdminRoot" component={AdminNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
+      <Stack.Screen name="AdminSignUp" component={AdminRegisterScreen} options={{ title: 'Login', headerShown: false }} />
+      <Stack.Screen name="Signin" component={UserSignComponent} options={{ title: 'Signin' }} />
       <Stack.Screen name="RLogin" component={Login} options={{ title: 'Login' }} />
       <Stack.Screen name="ModifyProductPage" component={ModifyProductPage} options={{
         title: 'Modify Product',
@@ -136,10 +138,12 @@ const AdminNavigator = () => {
         }}
       />
       {/* AllOrders */}
-      <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
+      <Stack.Screen name="AdminSignUp" component={AdminRegisterScreen} options={{ title: 'Login', headerShown: false }} />
+      <Stack.Screen name="Signin" component={UserSignComponent} options={{ title: 'Signin' }} />
       {/* admin login , user login */}
       <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ title: 'Admin Login' }} />
       <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />
+      <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -167,7 +171,7 @@ const UserNavigator = () => {
           }
         } />
       {/* login, signint */}
-      <Stack.Screen name="Signin" component={SignIn} options={{ title: 'Signin' }} />
+      <Stack.Screen name="Signin" component={UserSignComponent} options={{ title: 'Signin' }} />
       {/* admin login , user login */}
       <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ title: 'Admin Login' }} />
       <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />
@@ -223,7 +227,7 @@ const AdminBottomTabNavigator = () => {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "white"
+        tabBarActiveTintColor: "black"
       }}>
       <BottomTab.Screen
         name="Home"
