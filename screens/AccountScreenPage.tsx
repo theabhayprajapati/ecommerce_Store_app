@@ -1,8 +1,10 @@
 import { FontAwesome } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { ProductProps } from './TabOneScreen';
+import { ProductProps } from './admin/HomePage';
+
 
 type Cart = {
   products: ProductProps[],
@@ -24,24 +26,6 @@ const user: User = {
   avatar: 'https://i.pravatar.cc/300',
 }
 
-const SettingItemList = [
-  {
-    title: 'Account',
-    icon: 'user',
-  }, {
-    title: 'Payment',
-    icon: 'credit-card',
-  }, {
-    title: 'Notifications',
-    icon: 'bell',
-  }, {
-    title: 'Signin',
-    icon: 'question-circle',
-  }, {
-    title: 'Login',
-    icon: 'sign-out',
-  },
-]
 export default function AccountScreenPage() {
 
   const [cart, setCart] = useState<Cart>([]);
@@ -49,8 +33,14 @@ export default function AccountScreenPage() {
   const onPress = () => {
     return setTitle('Checkout');
   };
-  /* onpress chante style */
 
+  /* onpress chante style */
+  const navigation = useNavigation();
+  /* const logout and redirect to Login */
+  const logOut = async () => {
+    await AsyncStorage.clear();
+    navigation.navigate('Login');
+  }
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -74,55 +64,35 @@ export default function AccountScreenPage() {
           <Text style={styles.title}>
             Settings
           </Text>
-          {
-            SettingItemList.map((item, index) => (
-              //@ts-ignore
-              <SettingItem key={index} iconsname={item.icon} text={item.title} />
-            ))
-          }
+          <Pressable onPress={() => logOut()}>
+            <View style={{
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: 10,
+            }}>
+              <FontAwesome size={30} style={{ marginRight: 10 }} name={
+                'sign-out'
+              } />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  width: '90%',
+                }}>
+                <Text style={styles.title}>
+                  Logout
+                </Text>
+                <FontAwesome size={30} name="angle-right" />
+              </View>
+            </View>
+          </Pressable>
         </View>
       </View>
       <View style={styles.separator} />
     </ScrollView>
   );
 }
-
-const SettingItem = (
-  props: {
-    iconsname: React.ComponentProps<typeof FontAwesome>['name'],
-    text: string,
-  }
-) => {
-  const navigation = useNavigation();
-  return (
-    <Pressable onPress={() => navigation.navigate(props.text == "Login" ? "Login" : "Signin")}>
-
-      <View style={{
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 10,
-      }}>
-        <FontAwesome size={30} style={{ marginRight: 10 }} name={props.iconsname} />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '90%',
-          }}>
-          <Text style={styles.title}>
-            {props.text}
-          </Text>
-          {/* <FontAwesome size={30} style={{ marginBottom: -3 }} name="angle-right" /> */}
-          <Pressable onPress={() => navigation.navigate(props.text == "Login" ? "Login" : "Signin")}>
-            <FontAwesome size={30} style={{ marginBottom: -3 }} name="angle-right" />
-          </Pressable>
-        </View>
-      </View>
-    </Pressable>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

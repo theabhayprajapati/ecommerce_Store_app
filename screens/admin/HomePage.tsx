@@ -1,31 +1,26 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import React from 'react';
 import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { API_URL } from '../../globals/backend/user';
+import { ProductT } from '../../types';
 const categories = ['All', 'Fruits', 'Vegetables', 'Meat', 'Fish', 'Dairy', 'Bakery', 'Drinks', 'Snacks', 'Others']
-const products = [
-    {
-        name: 'Apple',
-        price: 1.99,
-        image: 'https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-    },
-    {
-        name: 'Banana',
-        price: 1.99,
-        image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80',
-    }, {
-        name: 'Orange',
-        price: 1.99,
-        image: 'https://images.unsplash.com/photo-1557800636-894a64c1696f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80',
-    }
-    , {
-        name: "Milk",
-        price: 2.99,
-        image: "https://images.unsplash.com/photo-1523473827533-2a64d0d36748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-    }
 
-]
 const AdminHomePage = () => {
+    const [products, setProducts] = React.useState<ProductT[]>([]);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/products`);
+            setProducts(response.data.products)
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    React.useEffect(() => {
+        fetchData();
+    }, []);
     const navigation = useNavigation();
     return (
         <SafeAreaView style={styles.container}>
@@ -127,7 +122,9 @@ export const Product = ({ product }: ProductProps) => {
                 >{product.name}</Text>
                 <Text
                     style={{ fontSize: 20, fontWeight: 'bold' }}
-                > {"₹"} {product.price}</Text>
+                > {"₹"}
+                    {Math.round(product.price).toFixed(2)}
+                </Text>
             </View>
         </View>
     )
@@ -168,15 +165,13 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     product: {
-        borderColor: 'black',
         padding: 10,
         margin: 5,
         borderRadius: 10,
         color: 'black',
-        borderWidth: 1,
-        /* flex row two columns */
         flexDirection: 'row',
         flexWrap: 'wrap',
+        backgroundColor: '#FFFFF7',
     },
     image: {
         width: 100,

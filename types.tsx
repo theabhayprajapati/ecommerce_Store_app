@@ -31,6 +31,8 @@ export type RootStackParamList = {
   RUserRoot: undefined;
   RAdminRoot: undefined;
   AdminSignUp: undefined;
+  ALogin: undefined;
+  ULogin: undefined;
   RLogin: undefined;
 };
 
@@ -62,6 +64,7 @@ export type ProductT = {
   desc: string,
   price: number,
   adminName: string,
+  name: string,
 }
 export type OrderT = ProductT & {
   productId: string,

@@ -48,7 +48,6 @@ function RootNavigator() {
     "Main Root Navigator: ",
     isLoggedIn,
     currentUser
-
   )
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -56,7 +55,7 @@ function RootNavigator() {
         (isLoggedIn == true || 'true') ? (
           currentUser.type == "admin" ? <Stack.Screen name="AdminRoot" component={AdminNavigator} options={{ headerShown: false }} /> :
             <Stack.Screen name="UserRoot" component={UserNavigator} options={{ headerShown: false }} />
-        ) : <Stack.Screen name="Login" component={Login} options={{ title: 'Login', headerShown: false }} />
+        ) : <Stack.Screen name="RLogin" component={Login} options={{ title: 'Login', headerShown: false }} />
       }
       <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="URoot" component={BottomTabNavigator} options={{ headerShown: false }} />
@@ -68,7 +67,7 @@ function RootNavigator() {
       <Stack.Screen name="RAdminRoot" component={AdminNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="AdminSignUp" component={AdminRegisterScreen} options={{ title: 'Login', headerShown: false }} />
       <Stack.Screen name="Signin" component={UserSignComponent} options={{ title: 'Signin' }} />
-      <Stack.Screen name="RLogin" component={Login} options={{ title: 'Login' }} />
+      <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
       <Stack.Screen name="ModifyProductPage" component={ModifyProductPage} options={{
         title: 'Modify Product',
       }} />
@@ -89,7 +88,7 @@ const AdminNavigator = () => {
     <Stack.Navigator>
       {
         currentUser.type == "admin" ? <Stack.Screen name="Root" component={AdminBottomTabNavigator} options={{ headerShown: false }} /> :
-          <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+          <Stack.Screen name="ALogin" component={Login} options={{ title: 'Login' }} />
       }
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="ModifyProductPage" component={ModifyProductPage} options={{
@@ -173,6 +172,7 @@ const UserNavigator = () => {
       {/* login, signint */}
       <Stack.Screen name="Signin" component={UserSignComponent} options={{ title: 'Signin' }} />
       {/* admin login , user login */}
+      <Stack.Screen name="ULogin" component={Login} options={{ title: 'Login' }} />
       <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ title: 'Admin Login' }} />
       <Stack.Screen name="UserLogin" component={UserLogin} options={{ title: 'User Login' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
