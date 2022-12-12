@@ -4,14 +4,15 @@
     "slug": "ecomapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Salad App Icon & Splash/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/Salad App Icon & Splash/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
+    "jsEngine": "hermes",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,13 +24,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/Salad App Icon & Splash/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.theabhayprajapati.ecomapp"
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/Salad App Icon & Splash/adaptive-icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0544a555-07d8-41bd-8b80-65371f3c81d4"
+      }
     }
   }
 }

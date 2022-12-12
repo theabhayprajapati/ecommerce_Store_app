@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import {
+    Image,
     StyleSheet,
     Text, TextInput, TouchableOpacity, View
 } from "react-native";
@@ -26,20 +27,26 @@ export default function UserLogin({ navigation }: any) {
             // await AsyncStorage.setItem('user', JSON.stringify(res));
             /* get all items of user key and add token */
             const user: any = await AsyncStorage.getItem('user');
+            console.log(user);
             var userObj = JSON.parse(user) || {};
             userObj.token = res.token;
+            userObj.type = res.type;
             // userObj.token = res.token;
             console.log(userObj);
             await AsyncStorage.setItem('user', JSON.stringify(userObj));
+            await AsyncStorage.setItem('isLoggedIn', 'true')
             // back to starting page
             // Root
-            navigation.navigate('UserRoot');
-
+            console.log(AsyncStorage);
+            navigation.navigate('RUserRoot');
         }
     }
 
     return (
         <View style={styles.container}>
+            <Image source={
+                { uri: 'https://media.swipepages.com/2022/12/638ccd45a0b63800105f0b87/logo-trademark-with-outline-750.png' }
+            } style={{ width: "100%", height: 100 }} />
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -50,6 +57,7 @@ export default function UserLogin({ navigation }: any) {
                 style={styles.input}
                 placeholder="Password"
                 value={password}
+                secureTextEntry={true}
                 onChangeText={(text) => setPassword(text)}
             />
             <TouchableOpacity style={{

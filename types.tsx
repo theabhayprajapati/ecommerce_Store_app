@@ -28,6 +28,8 @@ export type RootStackParamList = {
   AllOrders: undefined;
   URoot: undefined;
   AdminAddProductPage: undefined;
+  RUserRoot: undefined;
+  RAdminRoot: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -57,8 +59,9 @@ export type ProductT = {
   quantity: number,
   desc: string,
   price: number,
+  adminName: string,
 }
-export type OrderT = {
+export type OrderT = ProductT & {
   productId: string,
   productName: string,
   productprice: number,

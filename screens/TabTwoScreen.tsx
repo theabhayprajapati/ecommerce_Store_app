@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { ProductProps } from './TabOneScreen';
-
-type Cart = {
-  products: ProductProps[],
-  subtotal: number,
-}[];
-
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Product from '../components/Product.component';
+import { useAppContext } from '../globals/AppContext';
 export default function TabTwoScreen() {
-  const [cart, setCart] = useState<Cart>([]);
+  const { cartItems } = useAppContext();
+  console.log('cartItems', cartItems);
   const [title, setTitle] = useState('Checkout');
   const onPress = () => {
     return setTitle('Checkouted');
@@ -18,20 +14,20 @@ export default function TabTwoScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Subtotal: {cart.length > 0 ? cart[0].subtotal : 0}
-        </Text>
         <Pressable style={styles.buybutton} onPress={onPress}>
           <Text style={styles.text}>{title}</Text>
         </Pressable>
         <View style={styles.separator} />
-        {
-          cart.length > 0 ? (
-            <Text>No items in cart</Text>
-          ) : (
-            <Text>No items in cart</Text>
-          )
-        }
+        {/* flatlist */}
+        <FlatList
+          data={cartItems}
+          renderItem={({ item }) => (
+            <Product {...item} />
+          )}
+          keyExtractor={item => item.id.toString()}
+          numColumns={1}
+        />
+
       </View>
     </ScrollView>
   );
@@ -61,14 +57,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     elevation: 3,
     backgroundColor: 'yellow',
-    height: 80,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 9,
-    },
-    shadowOpacity: 0.50,
-    shadowRadius: 12.35,
+    height: 50,
     borderRadius: 10,
   },
   text: {

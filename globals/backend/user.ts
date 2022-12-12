@@ -4,7 +4,7 @@ import axios from "axios";
 
 export var mode = "prod";
 /* https://backendforecommstore-production.up.railway.app/ */
-const API_URL = mode != "dev" ? "https://backendforecommstore-production.up.railway.app" : "http://localhost:3000"
+export const API_URL = mode != "dev" ? "https://backendforecommstore-production.up.railway.app" : "http://localhost:3000"
 const UserLoginMethod = async (email: string, password: string) => {
     try {
         const { data } = await axios.post(`${API_URL}/login`, {

@@ -1,30 +1,29 @@
 import { Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
 import React from 'react';
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Product from '../components/Product.component';
+import { useAppContext } from '../globals/AppContext';
 import { ProductT, RootTabScreenProps } from '../types';
 
-const categories = ['All', 'Fruits', 'Vegetables', 'Meat', 'Fish', 'Dairy', 'Bakery', 'Drinks', 'Snacks', 'Others']
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>) {
-  const [products, setProducts] = React.useState<ProductT[]>([])
   const [searchedText, setSearchedText] = React.useState<string>('')
   const [searchedProducts, setSearchedProducts] = React.useState<ProductT[]>([])
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      console.log(response.data);
-      setProducts(response.data);
-      setSearchedProducts(response.data)
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get("https://fakestoreapi.com/products");
+  //     console.log(response.data);
+  //     setProducts(response.data);
+  //     setSearchedProducts(response.data)
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  React.useEffect(() => {
-    fetchData();
-  }, []);
+  // React.useEffect(() => {
+  //   fetchData();
+  // }, []);
+  const { products } = useAppContext();
   React.useEffect(() => {
     if (searchedText.length > 0) {
       const filteredProducts = products.filter((product) => {
@@ -44,43 +43,28 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
           <Text style={styles.title}>Search Products</Text>
           {/* make a search box and  */}
           <SearchInputField searchedText={searchedText} setSearchedText={setSearchedText} />
-          {/* <View style={styles.separator} />lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-          <Text style={styles.title}>Categories</Text>
-          {/* make a list of categories */}
-          {/* chips */}
-          {/* chips container */}
           <View style={styles.chipsContainer}>
-            {/* horizontal scroll */}
-            <ScrollView horizontal={true}>
-              {
-                categories.map((category, index) => {
-                  return (
-                    <Chip key={index} category={category} />
-                  )
-                })
-              }
-            </ScrollView>
           </View>
           <Text style={styles.title}>Products</Text>
           <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', flex: 1 }}>
-            <ScrollView>
-              {
-                searchedProducts.map((product, index) => {
-                  return (
-                    <Pressable key={index} onPress={
-                      // @ts-ignore
-                      () => navigation.navigate('ProductDetails', {
-                        product: product,
-                        searchedProducts: searchedProducts
-                      })
-                    }>
-                      <Product key={index} {...product} />
-                    </Pressable>
 
-                  )
-                })
-              }
-            </ScrollView>
+            <FlatList
+              data={searchedProducts}
+              renderItem={({ item }) => (
+                <Pressable onPress={
+                  // @ts-ignore
+                  () => navigation.navigate('ProductDetails', {
+                    product: item,
+                    searchedProducts: searchedProducts
+                  })
+                }>
+                  <Product {...item} />
+                </Pressable>
+              )}
+              keyExtractor={item => item.id.toString()}
+              numColumns={1}
+            />
+
           </View>
         </View>
         <View style={styles.separator} />
@@ -115,7 +99,16 @@ const SearchInputField = ({ searchedText, setSearchedText }: any) => {
       borderRadius: 10,
     }}>
       <Ionicons name="search" size={24} color="black" />
-      <TextInput placeholder="Search" style={{ flex: 1 }} value={searchedText} onChangeText={setSearchedText} />
+      <TextInput placeholder="Search" style={{ 
+        flex: 1, 
+        /* default styling and input innter border*/
+        borderWidth: 0,
+        padding: 0,
+        margin: 0,
+        marginLeft: 10,
+        fontSize: 16,
+        
+      }} value={searchedText} onChangeText={setSearchedText} />
       {
         searchedText.length > 0 && (
           <Pressable onPress={() => setSearchedText('')}>

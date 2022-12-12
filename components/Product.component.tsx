@@ -8,12 +8,15 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         flexDirection: "row",
+        borderWidth: 1,
+        borderColor: "#333",
+        borderRadius: 10,
+        marginBottom: 10,
     },
     image: {
         width: 100,
         height: 100,
         marginRight: 10,
-
     },
     info: {
         flex: 1,
@@ -61,18 +64,10 @@ const Product = (props: ProductT) => {
             <Image style={styles.image} resizeMode="contain" source={{ uri: props.image }} />
             <View style={styles.info}>
                 <Text style={styles.title}>{props.title}</Text>
-                <Text style={styles.storename}>{props.storename}</Text>
+                <Text style={styles.storename}>{props.adminName}</Text>
                 <Text style={styles.quantity}>{props.quantity}</Text>
                 <Text style={styles.desc}>{props.desc}</Text>
                 <Text style={styles.price}>{props.price}</Text>
-                <View style={styles.actions}>
-                    <View style={styles.button}>
-                        <Text>Add to Cart</Text>
-                    </View>
-                    <View style={styles.button}>
-                        <Text>More Info</Text>
-                    </View>
-                </View>
             </View>
         </View>
     );

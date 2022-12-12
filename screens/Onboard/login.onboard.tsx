@@ -1,13 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function Login() {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
-
+            {/* image */}
+            <Image source={
+                { uri: 'https://media.swipepages.com/2022/12/638ccd45a0b63800105f0b87/logo-trademark-with-outline-750.png' }
+            } style={{ width: "100%", height: 100 }} />
             <View style={styles.buttonContainer}>
                 <Pressable style={styles.button} onPress={() => navigation.navigate('AdminLogin')}>
                     <View style={styles.button}>
@@ -30,6 +32,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
+        padding: 20,
     },
     title: {
         fontSize: 20,
