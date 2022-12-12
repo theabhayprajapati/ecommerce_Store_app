@@ -1,29 +1,30 @@
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 import React from 'react';
 import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Product from '../components/Product.component';
 import { useAppContext } from '../globals/AppContext';
+import { API_URL } from '../globals/backend/user';
 import { ProductT, RootTabScreenProps } from '../types';
 
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>) {
+  const { products , setProducts} = useAppContext();
   const [searchedText, setSearchedText] = React.useState<string>('')
   const [searchedProducts, setSearchedProducts] = React.useState<ProductT[]>([])
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get("https://fakestoreapi.com/products");
-  //     console.log(response.data);
-  //     setProducts(response.data);
-  //     setSearchedProducts(response.data)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/products`);
+      setSearchedProducts(response.data.products)
+      setProducts(response.data.products)
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  // React.useEffect(() => {
-  //   fetchData();
-  // }, []);
-  const { products } = useAppContext();
+  React.useEffect(() => {
+    fetchData();
+  }, []);
   React.useEffect(() => {
     if (searchedText.length > 0) {
       const filteredProducts = products.filter((product) => {
@@ -99,15 +100,15 @@ const SearchInputField = ({ searchedText, setSearchedText }: any) => {
       borderRadius: 10,
     }}>
       <Ionicons name="search" size={24} color="black" />
-      <TextInput placeholder="Search" style={{ 
-        flex: 1, 
+      <TextInput placeholder="Search" style={{
+        flex: 1,
         /* default styling and input innter border*/
         borderWidth: 0,
         padding: 0,
         margin: 0,
         marginLeft: 10,
         fontSize: 16,
-        
+
       }} value={searchedText} onChangeText={setSearchedText} />
       {
         searchedText.length > 0 && (
@@ -120,31 +121,6 @@ const SearchInputField = ({ searchedText, setSearchedText }: any) => {
   )
 }
 
-// product type
-
-// export const Product = ({ product }: ProductProps) => {
-
-//   /* onpress to another page */
-//   const onPressToProductDetails = () => {
-//     console.log("pressed")
-//   }
-
-//   return (
-//     <View style={styles.product}>
-//       {/* image */}
-//       {/* two cols image and details with button but */}
-
-//       <Image source={{ uri: product.image }} style={styles.image} />
-//       <View style={styles.productdetails}>
-//         <Text>{product.title}</Text>
-//         <Text>{product.price}</Text>
-//         <Pressable onPress={onPressToProductDetails}>
-//           <Text style={{ color: 'blue' }}>Add to cart</Text>
-//         </Pressable>
-//       </View>
-//     </View>
-//   )
-// }
 
 const styles = StyleSheet.create({
   container: {

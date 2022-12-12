@@ -9,7 +9,7 @@ import { useAppContext } from "../../globals/AppContext";
 import { UserLoginMethod } from "../../globals/backend/user";
 
 export default function UserLogin({ navigation }: any) {
-    const { setCurrentUser }: any = useAppContext();
+    const { setCurrentUser, currentUser }: any = useAppContext();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleLogin = async () => {
@@ -23,20 +23,11 @@ export default function UserLogin({ navigation }: any) {
                     type: 'user',
                 })
             );
-            // /* use async storage */
-            // await AsyncStorage.setItem('user', JSON.stringify(res));
-            /* get all items of user key and add token */
-            const user: any = await AsyncStorage.getItem('user');
-            console.log(user);
-            var userObj = JSON.parse(user) || {};
-            userObj.token = res.token;
-            userObj.type = res.type;
-            // userObj.token = res.token;
-            console.log(userObj);
-            await AsyncStorage.setItem('user', JSON.stringify(userObj));
-            await AsyncStorage.setItem('isLoggedIn', 'true')
-            // back to starting page
-            // Root
+
+            await AsyncStorage.setItem('currentUser', JSON.stringify({
+                ...res, type: 'user'
+            }));
+            await AsyncStorage.setItem('isLoggedIn', 'true');
             console.log(AsyncStorage);
             navigation.navigate('RUserRoot');
         }

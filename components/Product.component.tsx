@@ -67,7 +67,9 @@ const Product = (props: ProductT) => {
                 <Text style={styles.storename}>{props.adminName}</Text>
                 <Text style={styles.quantity}>{props.quantity}</Text>
                 <Text style={styles.desc}>{props.desc}</Text>
-                <Text style={styles.price}>{props.price}</Text>
+                <Text style={styles.price}>{
+                    props.price.toFixed(2)
+                }</Text>
             </View>
         </View>
     );
