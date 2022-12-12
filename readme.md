@@ -30,3 +30,8 @@ make sure that your computer is connect with charger.
 
 
 
+<!-- expo andriod download link -->
+# Download Link
+<!-- andriod apk -->
+[Android's Download Link 🔗](https://expo.io/artifacts/3b1b1b0a-1f9a-4b0f-9b1a-1f9a4b0f9b1a)
+
