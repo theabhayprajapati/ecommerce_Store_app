@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Product from '../components/Product.component';
 import { useAppContext } from '../globals/AppContext';
-export default function TabTwoScreen() {
+export default function TabTwoScreen({ navigation }: any) {
   const { cartItems } = useAppContext();
   console.log('cartItems', cartItems);
   const [title, setTitle] = useState('Checkout');
@@ -22,12 +22,18 @@ export default function TabTwoScreen() {
         <FlatList
           data={cartItems}
           renderItem={({ item }) => (
-            <Product {...item} />
+            <Pressable onPress={
+              // @ts-ignore
+              () => navigation.push('ProductDetails', {
+                product: item,
+              })
+            }>
+              <Product {...item} />
+            </Pressable>
           )}
           keyExtractor={item => item.id.toString()}
           numColumns={1}
         />
-
       </View>
     </ScrollView>
   );

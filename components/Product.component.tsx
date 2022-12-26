@@ -57,8 +57,7 @@ const styles = StyleSheet.create({
 });
 
 const Product = (props: ProductT) => {
-    const AppContext = useAppContext();
-    console.log("AppContext", AppContext);
+    const AppContext = useAppContext(); 
     return (
         <View style={styles.container}>
             <Image style={styles.image} resizeMode="contain" source={{ uri: props.image }} />

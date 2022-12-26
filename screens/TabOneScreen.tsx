@@ -46,7 +46,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
             ...styles.title,
             marginBottom: 10,
           }}>Hii {
-              currentUser?.name.split(' ')[0]
+              'There'
             }</Text>
 
           <Text style={styles.title}>Search Products</Text>
@@ -62,7 +62,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
               renderItem={({ item }) => (
                 <Pressable onPress={
                   // @ts-ignore
-                  () => navigation.navigate('ProductDetails', {
+                  () => navigation.push('ProductDetails', {
                     product: item,
                     searchedProducts: searchedProducts
                   })
@@ -73,7 +73,6 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Home'>)
               keyExtractor={item => item.id.toString()}
               numColumns={1}
             />
-
           </View>
         </View>
         <View style={styles.separator} />
